@@ -5,63 +5,78 @@ import java.util.List;
 
 public class Main {
 
-    private static List<List<String>> rows = new ArrayList<List<String>>();
-
-    private static List<String> letterColumns = new ArrayList<String>();
-
-
     public static void main(String[] args) {
 
-        List<String> elemtos = new ArrayList<String>();
-        elemtos.add("S O L");
-        elemtos.add("U N O");
-        elemtos.add("N U T");
-        List<String> words = new ArrayList<String>();
-        words.add("SUN");
-        words.add("LOT");
-        words.add("ONU");
-        words.add("RAY");
+        //Matrix Alphabet
+        char[][] sopaDeLetras = {
+                { 'S', 'O', 'L' },
+                { 'U', 'N', 'O' },
+                { 'N', 'U', 'T' }
+        };
 
-
-        //“SUN”, “SOL”, “LOT”, “ONU” y “RAY”
-        for(String i : elemtos){
-            String[] letter = i.split(" ");
-            List<String> letterRows = new ArrayList<String>(letter.length);
-            for(int j = 0;  j < letter.length; j++){
-                letterRows.add(letter[j]);
+        // Print the matrix
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(sopaDeLetras[i][j] + " ");
             }
-            letter = new String[]{" "};
-            rows.add(letterRows);
+            System.out.println();
         }
-        /*for (int i = 0;  i < rows.size(); i++){
-            System.out.println(rows.get(i).toString());
-        }
-        /*
-        for(String i: words){
 
-            System.out.println("Searching " + i);
-            System.out.println("Searching " + wordsQuery(i));
-        }*/
+        List<String> wordQuery = new ArrayList<String>();
+        wordQuery.add("SUN");
+        wordQuery.add("SOL");
+        wordQuery.add("LOT");
+        wordQuery.add("ONU");
+        wordQuery.add("RAY");
+        for(String i: wordQuery){
+            wordQuery(sopaDeLetras, i);
+        }
 
     }
 
-    public static void wordQuery(String query){
-        String[] position = query.split("");
-        for(int i = 0; i < rows.size(); i++){
-            if(query.length())
+    /*
+    Parameter:  Matrix of char (char[][]), word to be searched for(String)
+    Description: Allows to search for a word in the implemented alphabet soup.
+     */
+    private static void wordQuery(char[][] sopaDeLetras, String wordSearch) {
+        
+        // Verificamos horizontal
+        for (int i = 0; i < sopaDeLetras.length; i++) {
+            String filaEnPalabra = "";
+            // palabra con cada fila
+            for (int j = 0; j < sopaDeLetras[i].length; j++) {
+                filaEnPalabra += sopaDeLetras[i][j];
+            }
+            if (filaEnPalabra.contains(wordSearch)) {
+                // Imprimo la posicion de cada letra
+                int positionInitial = filaEnPalabra.indexOf(wordSearch);
+                System.out.println("Searching " + wordSearch);
+                for (int posEnPalabraEncontrada = positionInitial; posEnPalabraEncontrada < sopaDeLetras.length; posEnPalabraEncontrada++) {
+                    System.out.println(filaEnPalabra.charAt(posEnPalabraEncontrada) + "[" + i + ", " + posEnPalabraEncontrada + "]" );
+                }
+                return;
+            }
         }
-        //return position;
-    }
 
-    public static String word(Integer length, Integer index){
-        String cadena = "";
-
-        for(int i = 0; i < length; i++){
-            cadena += rows.get(index).get(i);
+        // Verificamos vertical
+        for (int i = 0; i < sopaDeLetras[0].length; i++) {
+            String filaEnPalabra = "";
+            for (int j = 0; j < sopaDeLetras.length; j++) {
+                filaEnPalabra += sopaDeLetras[j][i];
+            }
+            if (filaEnPalabra.contains(wordSearch)) {
+                // Imprimo la posicion de cada letra
+                int positionInitial = filaEnPalabra.indexOf(wordSearch);
+                System.out.println("Seaching " + wordSearch);
+                for (int posEnPalabraEncontrada = positionInitial; posEnPalabraEncontrada < sopaDeLetras.length; posEnPalabraEncontrada++) {
+                    System.out.println(filaEnPalabra.charAt(posEnPalabraEncontrada) + "[" + posEnPalabraEncontrada + ", " + i + "]");
+                }
+                return;
+            }
         }
 
-        return cadena;
+        // Cuando la palabra no se encuentra
+        System.out.println(wordSearch + " Not found");
     }
-
 
 }
